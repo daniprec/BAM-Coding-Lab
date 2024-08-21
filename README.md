@@ -1,6 +1,6 @@
-# Coding Lab for the Bachelor in Applied Mathematics
+# BAM's Coding Lab
 
-Welcome to the Coding Lab for the Bachelor in Applied Mathematics! This repository contains all the coding exercises and projects for the program.
+Welcome to the Coding Lab for the Bachelor in Applied Mathematics! This repository contains all the data and examples you will need during our weekly challenges.
 
 ## Getting Started
 
@@ -14,6 +14,8 @@ To get started with the coding lab, follow these steps:
 
 The repository is organized into the following directories:
 
+- `.vscode` in case you are using VSCode, this folder will configure your settings to auto-format your code every time you save a file.
+- `code` contains all the code examples for the exercises.
 - `data` contains all the data files for the exercises.
 
 ## Questions
