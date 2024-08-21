@@ -17,6 +17,7 @@ setuptools.setup(
     ],
     python_requires=">=3.9",
     install_requires=[
+        "black",  # Autoformatter
         "matplotlib",
         "numpy",
         "pandas",
