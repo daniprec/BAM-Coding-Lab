@@ -56,4 +56,4 @@ print(f"We performed {niter} iterations")  # Should be 99^3 iterations
 # ----------------------------------------------
 
 # BONUS: Implement a function that generates a Cardano triplet
-# Fill in the code in challenges/02_cardano_triplet.py
+# Fill in the code in challenges/12_cardano_triplet.py

@@ -117,4 +117,4 @@ plt.close()
 # ----------------------------------------------
 # BONUS: Implement a function to generate a Bezier curve
 # for any degree (any number of control points)
-# Fill in the code in code/03_bezier_hd.py
+# Fill in the code in challenges/13_bezier_hd.py
