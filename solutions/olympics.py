@@ -65,3 +65,41 @@ def count_medals(df: pd.DataFrame) -> pd.DataFrame:
     ].sum()
 
     return df_country
+
+
+def add_gdp(
+    df_medals: pd.DataFrame, path_csv: str = "../data/olympics/gdp.csv"
+) -> pd.DataFrame:
+    """
+    Add GDP data to the DataFrame.
+
+    Parameters
+    ----------
+    df_medals : pd.DataFrame
+        DataFrame with the number of medals per country and year, as returned by `count_medals`.
+    path_csv : str, optional
+        Path to the CSV file with the GDP data per capita, by default "../data/olympics/gdp.csv".
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with the number of medals per country and year, and the GDP data.
+    """
+
+    df_gdp = pd.read_csv(path_csv)
+
+    # Rename columns
+    df_gdp = df_gdp.rename(
+        columns={"GDP per capita, PPP (constant 2017 international $)": "GDP"}
+    )
+
+    # Drop "Entity" column (optional)
+    df_gdp = df_gdp.drop(columns=["Entity"])
+    # Fill the missing values of "GDP", applying a linear interpolation by "Code" and "Year"
+    df_gdp["GDP"] = df_gdp.groupby("Code")["GDP"].transform(lambda x: x.interpolate())
+
+    # Merge by country code ("country_noc" / "Code") and year ("year" / "Year")
+    df = pd.merge(
+        df_medals, df_gdp, left_on=["country_noc", "year"], right_on=["Code", "Year"]
+    )
+    return df
