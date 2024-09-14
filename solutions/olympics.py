@@ -88,18 +88,49 @@ def add_gdp(
 
     df_gdp = pd.read_csv(path_csv)
 
-    # Rename columns
+    # Rename columns (we want to match our other dataframe)
     df_gdp = df_gdp.rename(
-        columns={"GDP per capita, PPP (constant 2017 international $)": "GDP"}
+        columns={
+            "Code": "country_noc",
+            "Year": "year",
+            "GDP per capita, PPP (constant 2017 international $)": "GDP",
+        }
     )
 
     # Drop "Entity" column (optional)
     df_gdp = df_gdp.drop(columns=["Entity"])
     # Fill the missing values of "GDP", applying a linear interpolation by "Code" and "Year"
-    df_gdp["GDP"] = df_gdp.groupby("Code")["GDP"].transform(lambda x: x.interpolate())
-
-    # Merge by country code ("country_noc" / "Code") and year ("year" / "Year")
-    df = pd.merge(
-        df_medals, df_gdp, left_on=["country_noc", "year"], right_on=["Code", "Year"]
+    df_gdp["GDP"] = df_gdp.groupby("country_noc")["GDP"].transform(
+        lambda x: x.interpolate()
     )
+
+    # Merge by country code and year
+    df = pd.merge(df_medals, df_gdp, on=["country_noc", "year"])
     return df
+
+
+def main(
+    path_medals: str = "data/olympics/olympics_medals.csv",
+    path_gdp: str = "data/olympics/gdp.csv",
+    path_output: str = "data/olympics/medals_gdp.csv",
+) -> pd.DataFrame:
+    """
+    Main function to process the Olympic data.
+
+    Parameters
+    ----------
+    path_medals : str, optional
+        Path to the CSV file with the Olympic data, by default "../data/olympics/olympics_medals.csv".
+    path_gdp : str, optional
+        Path to the CSV file with the GDP per capita data, by default "../data/olympics/gdp.csv".
+    path_output : str, optional
+        Path to save the output CSV file, by default "../data/olympics/medals_gdp.csv".
+    """
+    df = load_and_preprocess(path_csv=path_medals)
+    df_medals = count_medals(df)
+    df = add_gdp(df_medals, path_csv=path_gdp)
+    df.to_csv(path_output, index=False)
+
+
+if __name__ == "__main__":
+    main()
