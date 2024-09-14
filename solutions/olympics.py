@@ -31,3 +31,37 @@ def load_and_preprocess(
     )
 
     return df
+
+
+def count_medals(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Count the number of medals per country and year.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame with the Olympic data, as returned by `load_and_preprocess`.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with the number of medals per country and year.
+    """
+    # Mask non-medal rows
+    mask_medal = df["medal"] != "No"
+
+    # Count unique events per country and year
+    df_country = (
+        df[mask_medal]
+        .groupby(["year", "country_noc", "medal"], as_index=False)["event"]
+        .nunique()
+    )
+    # Rename "event_simple" to "medals"
+    df_country: pd.DataFrame = df_country.rename(columns={"event": "medals"})
+
+    # Now we can add all kind of medals together
+    df_country = df_country.groupby(["year", "country_noc"], as_index=False)[
+        "medals"
+    ].sum()
+
+    return df_country
