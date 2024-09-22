@@ -113,7 +113,7 @@ class VectorField:
         dvdy = (fd[1] - f[1]) / delta
         return dudy, dvdy
 
-    def plot(self, bounds: Tuple[int, int, int, int], step: float = 0.1):
+    def plot(self, bounds: Tuple[int, int, int, int], step: float = 0.5):
         """This method plots the vector field.
 
         Parameters
@@ -131,7 +131,6 @@ class VectorField:
         mat_u, mat_v = self(mat_x, mat_y)
 
         plt.quiver(mat_x, mat_y, mat_u, mat_v)
-        plt.show()
 
 
 def test_call(vf: VectorField):
@@ -146,19 +145,20 @@ def test_call(vf: VectorField):
 def test_plot(vf: VectorField):
     print("\n---\nTest plot method:")
     vf.plot((-5, 5, -5, 5), step=0.5)
+    plt.show()
     print("---\n")
 
 
 def main():
     print("Testing the VectorField class with horizontal:")
-    vf = VectorField(horizontal_current, strength=1)
-    test_call(vf)
-    test_plot(vf)
+    vf_h = VectorField(horizontal_current, strength=1)
+    test_call(vf_h)
+    test_plot(vf_h)
 
     print("Testing the VectorField class with circular:")
-    vf = VectorField(circular_current, strength=1)
-    test_call(vf)
-    test_plot(vf)
+    vf_c = VectorField(circular_current, strength=1)
+    test_call(vf_c)
+    test_plot(vf_c)
 
 
 if __name__ == "__main__":
