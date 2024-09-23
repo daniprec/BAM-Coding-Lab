@@ -1,36 +1,39 @@
-from typing import Tuple
-
 import matplotlib.pyplot as plt
 from vectorfield import VectorField, circular_current
 
 
 class Vessel:
-    def __init__(self, vectorfield: VectorField):
+    def __init__(
+        self,
+        vectorfield: VectorField,
+        x: float = 0,
+        y: float = 0,
+        speed: float = 0,
+        theta: float = 0,
+    ):
         self.vectorfield = vectorfield
+        self.x = x
+        self.y = y
+        self.speed = speed
+        self.theta = theta
 
-    def drift(
-        self, x: float, y: float, dt: float, step: int = 10
-    ) -> Tuple[float, float]:
+    def drift(self, dt: float):
         """This method computes the drift of the vessel over a given time interval."""
-        u, v = self.vectorfield(x, y)
         # Use finite difference to compute the drift
-        for _ in range(step):
-            u, v = self.vectorfield(x, y)
-            x += u * dt / step
-            y += v * dt / step
-        return x, y
+        u, v = self.vectorfield(self.x, self.y)
+        self.x += u * dt
+        self.y += v * dt
 
 
 def test_drift(vessel: Vessel):
     vessel.vectorfield.plot([-5, 5, -5, 5])
-    x, y = -2, 2
     dt = 0.05
-    pt = plt.scatter(x, y, color="red")
+    pt = plt.scatter(vessel.x, vessel.y, color="red")
     # Start an animation to show the drift of the vessel
     # User controls when it stops
     while True:
-        x, y = vessel.drift(x, y, dt)
-        pt.set_offsets([x, y])
+        vessel.drift(dt)
+        pt.set_offsets([vessel.x, vessel.y])
         plt.pause(0.1)
         if not plt.get_fignums():
             break
@@ -38,7 +41,7 @@ def test_drift(vessel: Vessel):
 
 def main():
     vectorfield = VectorField(circular_current)
-    vessel = Vessel(vectorfield)
+    vessel = Vessel(vectorfield, x=2, y=2, speed=1, theta=0)
     test_drift(vessel)
 
 
