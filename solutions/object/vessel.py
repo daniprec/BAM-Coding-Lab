@@ -1,4 +1,5 @@
-from math import atan2, cos, sin
+from abc import abstractmethod
+from math import cos, sin
 
 import matplotlib.pyplot as plt
 from vectorfield import VectorField, circular_current
@@ -47,12 +48,10 @@ class Vessel:
         self.x += dx * dt
         self.y += dy * dt
 
+    @abstractmethod
     def head_to(self, x: float, y: float, dt: float = 0.05):
         """This method moves the vessel to a given position."""
-        dx = x - self.x
-        dy = y - self.y
-        self.theta = atan2(dy, dx)
-        self.move(dt)
+        raise NotImplementedError
 
     def change_heading(self, dt: float = 0.05):
         """This method computes the drift of the vessel over a given time interval."""
@@ -118,19 +117,6 @@ def test_move_multiple(ls_vessels: list[Vessel], dt: float = 0.05):
             break
 
 
-def test_head_to(vessel: Vessel, x: float = -2, y: float = -2, dt: float = 0.05):
-    vessel.vectorfield.plot([-5, 5, -5, 5])
-    plt.scatter(x, y, color="blue")
-    # Start an animation to show the movement of the vessel
-    # User controls when it stops
-    while True:
-        vessel.head_to(x, y, dt)
-        vessel.plot()
-        plt.pause(dt)
-        if not plt.get_fignums():
-            break
-
-
 def test_change_heading(vessel: Vessel, dt: float = 0.05):
     vessel.vectorfield.plot([-5, 5, -5, 5])
     # Start an animation to show the movement of the vessel
@@ -160,10 +146,6 @@ def main():
     # Vessel with thrust
     vessel_thrust = Vessel(vectorfield, x=2, y=2, thrust=2)
     test_move(vessel_thrust)
-
-    # Vessel adapting its heading
-    vessel_thrust = Vessel(vectorfield, x=2, y=2, thrust=2)
-    test_head_to(vessel_thrust)
 
     # Vessel changing its heading
     vessel_thrust = Vessel(vectorfield, x=2, y=2, thrust=2)

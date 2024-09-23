@@ -3,6 +3,7 @@ from math import atan2
 import matplotlib.pyplot as plt
 from vectorfield import VectorField, circular_current
 from vessel import Vessel
+from vessel_simple import VesselSimple
 
 
 class VesselClever(Vessel):
@@ -94,7 +95,7 @@ def main():
 
     # Compete against the basic vessel
     ls_vessels = [
-        Vessel(vectorfield, x=x0, y=y0, thrust=thrust),
+        VesselSimple(vectorfield, x=x0, y=y0, thrust=thrust),
         VesselClever(vectorfield, x=x0, y=y0, thrust=thrust, color="blue"),
     ]
     competition(ls_vessels, x=x, y=y)
