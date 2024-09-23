@@ -75,6 +75,28 @@ class Vessel:
             head_width=self.thrust / 10,
         )
 
+    def drift_heading(self, dt: float = 0.05):
+        """This method computes the drift of the vessel over a given time interval."""
+        # Get the velocity components (u, v) at the current position (x, y)
+        u, v = self.vectorfield(self.x, self.y)
+
+        # Current heading
+        theta = self.theta
+
+        # Compute the total velocity from thrust and vector field
+        vx = u + self.thrust * cos(theta)
+        vy = v + self.thrust * sin(theta)
+
+        # The rate of change of heading due to vector field's influence
+        dtheta_dt = (v * cos(theta) - u * sin(theta)) / (self.thrust + 1e-10)
+
+        # Update heading using finite difference (Euler's method)
+        self.theta += dtheta_dt * dt
+
+        # Update position based on the total velocity (vx, vy)
+        self.x += vx * dt
+        self.y += vy * dt
+
 
 def test_drift(vectorfield: VectorField, dt: float = 0.05):
     vessel = Vessel(vectorfield, x=2, y=2)
@@ -136,12 +158,26 @@ def test_head_to(vectorfield: VectorField, dt: float = 0.05):
             break
 
 
+def test_drift_heading(vectorfield: VectorField, dt: float = 0.05):
+    vessel = Vessel(vectorfield, x=1, y=1, thrust=1, theta=0)
+    vectorfield.plot([-5, 5, -5, 5])
+    # Start an animation to show the movement of the vessel
+    # User controls when it stops
+    while True:
+        vessel.drift_heading(dt)
+        vessel.plot()
+        plt.pause(dt)
+        if not plt.get_fignums():
+            break
+
+
 def main():
     vectorfield = VectorField(circular_current)
     test_drift(vectorfield)
     test_drift_multiple(vectorfield)
     test_move(vectorfield)
     test_head_to(vectorfield)
+    test_drift_heading(vectorfield)
 
 
 if __name__ == "__main__":
