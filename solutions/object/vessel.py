@@ -39,13 +39,6 @@ class Vessel:
         """
         return self.thrust * sin(self.theta)
 
-    def drift(self, dt: float = 0.05):
-        """This method computes the drift of the vessel over a given time interval."""
-        # Use finite difference to compute the drift
-        u, v = self.vectorfield(self.x, self.y)
-        self.x += u * dt
-        self.y += v * dt
-
     def move(self, dt: float = 0.05):
         """This method moves the vessel in the direction of its heading."""
         u, v = self.vectorfield(self.x, self.y)
@@ -61,7 +54,7 @@ class Vessel:
         self.theta = atan2(dy, dx)
         self.move(dt)
 
-    def drift_heading(self, dt: float = 0.05):
+    def change_heading(self, dt: float = 0.05):
         """This method computes the drift of the vessel over a given time interval."""
         # Get the velocity components (u, v) at the current position (x, y)
         u, v = self.vectorfield(self.x, self.y)
@@ -100,42 +93,9 @@ class Vessel:
         )
 
 
-def test_drift(vectorfield: VectorField, dt: float = 0.05):
-    vessel = Vessel(vectorfield, x=2, y=2)
-    vectorfield.plot([-5, 5, -5, 5])
+def test_move(vessel: Vessel, dt: float = 0.05):
+    vessel.vectorfield.plot([-5, 5, -5, 5])
     # Start an animation to show the drift of the vessel
-    # User controls when it stops
-    while True:
-        vessel.drift(dt)
-        vessel.plot()
-        plt.pause(dt)
-        if not plt.get_fignums():
-            break
-
-
-def test_drift_multiple(vectorfield: VectorField, dt: float = 0.05):
-    ls_vessels: list[Vessel] = []
-
-    for x in range(4):
-        for y in range(4):
-            ls_vessels.append(Vessel(vectorfield, x=x, y=y))
-
-    vectorfield.plot([-5, 5, -5, 5])
-    # Start an animation to show the movement of the vessel
-    # User controls when it stops
-    while True:
-        for vessel in ls_vessels:
-            vessel.drift(dt)
-            vessel.plot()
-        plt.pause(dt)
-        if not plt.get_fignums():
-            break
-
-
-def test_move(vectorfield: VectorField, dt: float = 0.05):
-    vessel = Vessel(vectorfield, x=2, y=2, thrust=2, theta=0)
-    vectorfield.plot([-5, 5, -5, 5])
-    # Start an animation to show the movement of the vessel
     # User controls when it stops
     while True:
         vessel.move(dt)
@@ -145,10 +105,22 @@ def test_move(vectorfield: VectorField, dt: float = 0.05):
             break
 
 
-def test_head_to(vectorfield: VectorField, dt: float = 0.05):
-    vessel = Vessel(vectorfield, x=2, y=2, thrust=2, theta=0)
+def test_move_multiple(ls_vessels: list[Vessel], dt: float = 0.05):
+    ls_vessels[0].vectorfield.plot([-5, 5, -5, 5])
+    # Start an animation to show the movement of the vessel
+    # User controls when it stops
+    while True:
+        for vessel in ls_vessels:
+            vessel.move(dt)
+            vessel.plot()
+        plt.pause(dt)
+        if not plt.get_fignums():
+            break
+
+
+def test_head_to(vessel: Vessel, dt: float = 0.05):
     x, y = -2, -2
-    vectorfield.plot([-5, 5, -5, 5])
+    vessel.vectorfield.plot([-5, 5, -5, 5])
     plt.scatter(x, y, color="blue")
     # Start an animation to show the movement of the vessel
     # User controls when it stops
@@ -160,13 +132,12 @@ def test_head_to(vectorfield: VectorField, dt: float = 0.05):
             break
 
 
-def test_drift_heading(vectorfield: VectorField, dt: float = 0.05):
-    vessel = Vessel(vectorfield, x=1, y=1, thrust=1, theta=0)
-    vectorfield.plot([-5, 5, -5, 5])
+def test_change_heading(vessel: Vessel, dt: float = 0.05):
+    vessel.vectorfield.plot([-5, 5, -5, 5])
     # Start an animation to show the movement of the vessel
     # User controls when it stops
     while True:
-        vessel.drift_heading(dt)
+        vessel.change_heading(dt)
         vessel.plot()
         plt.pause(dt)
         if not plt.get_fignums():
@@ -175,11 +146,29 @@ def test_drift_heading(vectorfield: VectorField, dt: float = 0.05):
 
 def main():
     vectorfield = VectorField(circular_current)
-    test_drift(vectorfield)
-    test_drift_multiple(vectorfield)
-    test_move(vectorfield)
-    test_head_to(vectorfield)
-    test_drift_heading(vectorfield)
+
+    # Vessel with no thrust
+    vessel_nothrust = Vessel(vectorfield, x=2, y=2)
+    test_move(vessel_nothrust)
+
+    # Several vessels
+    ls_vessels = []
+    for x in range(4):
+        for y in range(4):
+            ls_vessels.append(Vessel(vectorfield, x=x, y=y))
+    test_move_multiple(ls_vessels)
+
+    # Vessel with thrust
+    vessel_thrust = Vessel(vectorfield, x=2, y=2, thrust=2)
+    test_move(vessel_thrust)
+
+    # Vessel adapting its heading
+    vessel_thrust = Vessel(vectorfield, x=2, y=2, thrust=2)
+    test_head_to(vessel_thrust)
+
+    # Vessel changing its heading
+    vessel_thrust = Vessel(vectorfield, x=2, y=2, thrust=2)
+    test_change_heading(vessel_thrust)
 
 
 if __name__ == "__main__":

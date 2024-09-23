@@ -7,7 +7,7 @@ from vessel import Vessel
 
 class VesselClever(Vessel):
 
-    def head_to(self, x: float, y: float, dt: float = 0.05):
+    def head_to(self, x: float, y: float, damping: float = 1, dt: float = 0.05):
         # We want to move in the following direction
         dx = x - self.x
         dy = y - self.y
@@ -19,7 +19,7 @@ class VesselClever(Vessel):
         diff_theta = theta_goal - theta_field
 
         # Aim our angle to compesate for the vectorfield
-        self.theta += diff_theta
+        self.theta += diff_theta / damping
         self.move(dt)
 
 
