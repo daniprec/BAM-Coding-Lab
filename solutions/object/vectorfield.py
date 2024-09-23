@@ -131,6 +131,8 @@ class VectorField:
         mat_u, mat_v = self(mat_x, mat_y)
 
         plt.quiver(mat_x, mat_y, mat_u, mat_v)
+        # Make it square
+        plt.gca().set_aspect("equal", adjustable="box")
 
 
 def test_call(vf: VectorField):
