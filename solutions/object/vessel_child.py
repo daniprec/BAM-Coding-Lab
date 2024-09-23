@@ -5,7 +5,7 @@ from vectorfield import VectorField, circular_current
 from vessel import Vessel
 
 
-class VesselSimple(Vessel):
+class VesselChild(Vessel):
     def head_to(self, x: float, y: float, dt: float = 0.05):
         """This method moves the vessel to a given position."""
         dx = x - self.x
@@ -31,7 +31,7 @@ def main():
     vectorfield = VectorField(circular_current)
 
     # Vessel adapting its heading
-    vessel_thrust = VesselSimple(vectorfield, x=2, y=2, thrust=2)
+    vessel_thrust = VesselChild(vectorfield, x=2, y=2, thrust=2)
     test_head_to(vessel_thrust)
 
 
