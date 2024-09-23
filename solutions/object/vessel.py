@@ -12,12 +12,14 @@ class Vessel:
         y: float = 0,
         thrust: float = 0,
         theta: float = 0,
+        color: str = "red",
     ):
         self.vectorfield = vectorfield
         self.x = x
         self.y = y
         self.thrust = thrust
         self.theta = theta
+        self.color = color
         # Hidden attributes to store the plot of the vessel
         self._plot_point = None
 
@@ -59,22 +61,6 @@ class Vessel:
         self.theta = atan2(dy, dx)
         self.move(dt)
 
-    def plot(self):
-        # Remove the previous plot if it exists
-        if self._plot_point:
-            self._plot_point.remove()
-            self._plot_arrow.remove()
-        # Plot the vessel at its current heading
-        self._plot_point = plt.scatter(self.x, self.y, color="red")
-        self._plot_arrow = plt.arrow(
-            self.x,
-            self.y,
-            self.thrust_x / 2,
-            self.thrust_y / 2,
-            color="red",
-            head_width=self.thrust / 10,
-        )
-
     def drift_heading(self, dt: float = 0.05):
         """This method computes the drift of the vessel over a given time interval."""
         # Get the velocity components (u, v) at the current position (x, y)
@@ -96,6 +82,22 @@ class Vessel:
         # Update position based on the total velocity (vx, vy)
         self.x += vx * dt
         self.y += vy * dt
+
+    def plot(self):
+        # Remove the previous plot if it exists
+        if self._plot_point:
+            self._plot_point.remove()
+            self._plot_arrow.remove()
+        # Plot the vessel at its current heading
+        self._plot_point = plt.scatter(self.x, self.y, color=self.color)
+        self._plot_arrow = plt.arrow(
+            self.x,
+            self.y,
+            self.thrust_x / 2,
+            self.thrust_y / 2,
+            color=self.color,
+            head_width=self.thrust / 10,
+        )
 
 
 def test_drift(vectorfield: VectorField, dt: float = 0.05):
