@@ -118,8 +118,7 @@ def test_move_multiple(ls_vessels: list[Vessel], dt: float = 0.05):
             break
 
 
-def test_head_to(vessel: Vessel, dt: float = 0.05):
-    x, y = -2, -2
+def test_head_to(vessel: Vessel, x: float = -2, y: float = -2, dt: float = 0.05):
     vessel.vectorfield.plot([-5, 5, -5, 5])
     plt.scatter(x, y, color="blue")
     # Start an animation to show the movement of the vessel
