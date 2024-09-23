@@ -23,20 +23,28 @@ class Vessel:
 
     @property
     def thrust_x(self) -> float:
+        """
+        This property returns the x-component of the thrust vector.
+        A property does not need to be called as a method, but as an attribute.
+        """
         return self.thrust * cos(self.theta)
 
     @property
     def thrust_y(self) -> float:
+        """
+        This property returns the y-component of the thrust vector.
+        A property does not need to be called as a method, but as an attribute.
+        """
         return self.thrust * sin(self.theta)
 
-    def drift(self, dt: float):
+    def drift(self, dt: float = 0.05):
         """This method computes the drift of the vessel over a given time interval."""
         # Use finite difference to compute the drift
         u, v = self.vectorfield(self.x, self.y)
         self.x += u * dt
         self.y += v * dt
 
-    def move(self, dt: float):
+    def move(self, dt: float = 0.05):
         """This method moves the vessel in the direction of its heading."""
         u, v = self.vectorfield(self.x, self.y)
         dx = u + self.thrust_x
@@ -44,7 +52,7 @@ class Vessel:
         self.x += dx * dt
         self.y += dy * dt
 
-    def head_to(self, x: float, y: float, dt: float):
+    def head_to(self, x: float, y: float, dt: float = 0.05):
         """This method moves the vessel to a given position."""
         dx = x - self.x
         dy = y - self.y
@@ -69,7 +77,7 @@ class Vessel:
 
 
 def test_drift(vectorfield: VectorField, dt: float = 0.05):
-    vessel = Vessel(vectorfield, x=2, y=2, thrust=0, theta=0)
+    vessel = Vessel(vectorfield, x=2, y=2)
     vectorfield.plot([-5, 5, -5, 5])
     # Start an animation to show the drift of the vessel
     # User controls when it stops
@@ -86,7 +94,7 @@ def test_drift_multiple(vectorfield: VectorField, dt: float = 0.05):
 
     for x in range(4):
         for y in range(4):
-            ls_vessels.append(Vessel(vectorfield, x=x, y=y, thrust=0, theta=0))
+            ls_vessels.append(Vessel(vectorfield, x=x, y=y))
 
     vectorfield.plot([-5, 5, -5, 5])
     # Start an animation to show the movement of the vessel
