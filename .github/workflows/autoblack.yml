@@ -1,0 +1,26 @@
+# GitHub Action that uses Black to reformat the Python code in an incoming pull request.
+# If all Python code in the pull request is compliant with Black then this Action does nothing.
+# Othewrwise, Black is run and its changes are committed back to the incoming pull request.
+# https://github.com/cclauss/autoblack
+
+name: autoblack
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v2
+        with:  # https://github.com/stefanzweifel/git-auto-commit-action#checkout-the-correct-branch
+            ref: ${{ github.head_ref }}
+      - uses: actions/setup-python@v1
+      - run: pip install black
+      - run: black .
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: ${{ github.actor }}
+          author_email: ${{ github.actor }}@users.noreply.github.com
+          message: "Format code with black"
+          add: "."
