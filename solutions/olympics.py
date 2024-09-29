@@ -11,7 +11,7 @@ def split_event_gender(event: str) -> tuple:
 
 
 def load_and_preprocess(
-    path_csv: str = "../data/olympics/olympics_medals.csv",
+    path_csv: str = "../data/olympics_medals.csv",
 ) -> pd.DataFrame:
 
     # We use "read_csv" to load a "csv" file
@@ -67,9 +67,7 @@ def count_medals(df: pd.DataFrame) -> pd.DataFrame:
     return df_country
 
 
-def add_gdp(
-    df_medals: pd.DataFrame, path_csv: str = "../data/olympics/gdp.csv"
-) -> pd.DataFrame:
+def add_gdp(df_medals: pd.DataFrame, path_csv: str = "../data/gdp.csv") -> pd.DataFrame:
     """
     Add GDP data to the DataFrame.
 
@@ -78,7 +76,7 @@ def add_gdp(
     df_medals : pd.DataFrame
         DataFrame with the number of medals per country and year, as returned by `count_medals`.
     path_csv : str, optional
-        Path to the CSV file with the GDP data per capita, by default "../data/olympics/gdp.csv".
+        Path to the CSV file with the GDP data per capita, by default "../data/gdp.csv".
 
     Returns
     -------
@@ -110,9 +108,9 @@ def add_gdp(
 
 
 def main(
-    path_medals: str = "data/olympics/olympics_medals.csv",
-    path_gdp: str = "data/olympics/gdp.csv",
-    path_output: str = "data/olympics/medals_gdp.csv",
+    path_medals: str = "data/olympics_medals.csv",
+    path_gdp: str = "data/gdp.csv",
+    path_output: str = "data/medals_gdp.csv",
 ) -> pd.DataFrame:
     """
     Main function to process the Olympic data.
@@ -120,11 +118,11 @@ def main(
     Parameters
     ----------
     path_medals : str, optional
-        Path to the CSV file with the Olympic data, by default "../data/olympics/olympics_medals.csv".
+        Path to the CSV file with the Olympic data, by default "../data/olympics_medals.csv".
     path_gdp : str, optional
-        Path to the CSV file with the GDP per capita data, by default "../data/olympics/gdp.csv".
+        Path to the CSV file with the GDP per capita data, by default "../data/gdp.csv".
     path_output : str, optional
-        Path to save the output CSV file, by default "../data/olympics/medals_gdp.csv".
+        Path to save the output CSV file, by default "../data/medals_gdp.csv".
     """
     df = load_and_preprocess(path_csv=path_medals)
     df_medals = count_medals(df)
