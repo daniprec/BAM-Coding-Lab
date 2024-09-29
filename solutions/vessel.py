@@ -2,7 +2,8 @@ from abc import abstractmethod
 from math import cos, sin
 
 import matplotlib.pyplot as plt
-from vectorfield import VectorField, circular_current
+
+from solutions.vectorfield import VectorField, circular_current
 
 
 class Vessel:

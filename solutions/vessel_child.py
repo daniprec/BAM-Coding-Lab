@@ -1,8 +1,9 @@
 from math import atan2
 
 import matplotlib.pyplot as plt
-from vectorfield import VectorField, circular_current
-from vessel import Vessel
+
+from solutions.vectorfield import VectorField, circular_current
+from solutions.vessel import Vessel
 
 
 class VesselChild(Vessel):
