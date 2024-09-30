@@ -67,7 +67,7 @@ class VectorField:
         """
         return self.function(x, y, **self.kwargs)
 
-    def dx(self, x: float, y: float) -> Tuple[float, float]:
+    def dx(self, x: float, y: float, eps: float = 1e-6) -> Tuple[float, float]:
         """This method computes the derivate of the x-component of the vector field.
         Uses finite difference method.
 
@@ -83,14 +83,13 @@ class VectorField:
         Tuple[float, float]
             The derivated velocity field at the given point
         """
-        delta = 1e-6
         f = self(x, y)
-        fd = self(x + delta, y)
-        dudx = (fd[0] - f[0]) / delta
-        dvdx = (fd[1] - f[1]) / delta
+        fd = self(x + eps, y)
+        dudx = (fd[0] - f[0]) / eps
+        dvdx = (fd[1] - f[1]) / eps
         return dudx, dvdx
 
-    def dy(self, x: float, y: float) -> Tuple[float, float]:
+    def dy(self, x: float, y: float, eps: float = 1e-6) -> Tuple[float, float]:
         """This method computes the derivate of the y-component of the vector field.
         Uses finite difference method.
 
@@ -106,12 +105,16 @@ class VectorField:
         Tuple[float, float]
             The derivated velocity field at the given point
         """
-        delta = 1e-6
         f = self(x, y)
-        fd = self(x, y + delta)
-        dudy = (fd[0] - f[0]) / delta
-        dvdy = (fd[1] - f[1]) / delta
+        fd = self(x, y + eps)
+        dudy = (fd[0] - f[0]) / eps
+        dvdy = (fd[1] - f[1]) / eps
         return dudy, dvdy
+
+    def gradient(self, x: float, y: float, eps: float = 1e-6):
+        du_dx, dv_dx = self.dx(x, y, eps=eps)
+        du_dy, dv_dy = self.dy(x, y, eps=eps)
+        return du_dx, dv_dx, du_dy, dv_dy
 
     def plot(self, bounds: Tuple[int, int, int, int], step: float = 0.5):
         """This method plots the vector field.
