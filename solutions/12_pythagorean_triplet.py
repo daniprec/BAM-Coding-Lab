@@ -4,7 +4,7 @@ import time
 # a list of points is a Pythagorean triplet
 
 
-def is_pythagorean(ls: list[int]) -> bool:
+def is_pythagorean(ls: list) -> bool:
     # Check the list has three numbers
     if len(ls) != 3:
         return False

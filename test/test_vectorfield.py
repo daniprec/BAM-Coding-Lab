@@ -1,7 +1,7 @@
 from solutions.vectorfield import VectorField
 
 
-def vectorfield_exponetial(x: float, y: float) -> tuple[float, float]:
+def vectorfield_exponetial(x: float, y: float) -> tuple:
     """
     Simple vector field function that returns the square of the input values.
     """

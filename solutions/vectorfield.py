@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def horizontal_current(x: float, y: float, strength: float = 1) -> Tuple[float, float]:
+def horizontal_current(x: float, y: float, strength: float = 1) -> tuple:
     """This function returns the velocity field of a horizontal current at a given point.
 
     Parameters
@@ -16,7 +16,7 @@ def horizontal_current(x: float, y: float, strength: float = 1) -> Tuple[float, 
 
     Returns
     -------
-    Tuple[float, float]
+    tuple
         The velocity field at the given point
     """
     u = -x * strength
@@ -24,7 +24,7 @@ def horizontal_current(x: float, y: float, strength: float = 1) -> Tuple[float, 
     return u, v
 
 
-def circular_current(x: float, y: float, strength: float = 1) -> Tuple[float, float]:
+def circular_current(x: float, y: float, strength: float = 1) -> tuple:
     """This function returns the velocity field of a circular current at a given point.
 
     Parameters
@@ -36,7 +36,7 @@ def circular_current(x: float, y: float, strength: float = 1) -> Tuple[float, fl
 
     Returns
     -------
-    Tuple[float, float]
+    tuple
         The velocity field at the given point
     """
     u = -y * strength
@@ -50,7 +50,7 @@ class VectorField:
         self.function = function
         self.kwargs = kwargs
 
-    def __call__(self, x: float, y: float) -> Tuple[float, float]:
+    def __call__(self, x: float, y: float) -> tuple:
         """This method returns the velocity field of the vector field at a given point.
 
         Parameters
@@ -62,12 +62,12 @@ class VectorField:
 
         Returns
         -------
-        Tuple[float, float]
+        tuple
             The velocity field at the given point
         """
         return self.function(x, y, **self.kwargs)
 
-    def dx(self, x: float, y: float, eps: float = 1e-6) -> Tuple[float, float]:
+    def dx(self, x: float, y: float, eps: float = 1e-6) -> tuple:
         """This method computes the derivate of the x-component of the vector field.
         Uses finite difference method.
 
@@ -80,7 +80,7 @@ class VectorField:
 
         Returns
         -------
-        Tuple[float, float]
+        tuple
             The derivated velocity field at the given point
         """
         f = self(x, y)
@@ -89,7 +89,7 @@ class VectorField:
         dvdx = (fd[1] - f[1]) / eps
         return dudx, dvdx
 
-    def dy(self, x: float, y: float, eps: float = 1e-6) -> Tuple[float, float]:
+    def dy(self, x: float, y: float, eps: float = 1e-6) -> tuple:
         """This method computes the derivate of the y-component of the vector field.
         Uses finite difference method.
 
@@ -102,7 +102,7 @@ class VectorField:
 
         Returns
         -------
-        Tuple[float, float]
+        tuple
             The derivated velocity field at the given point
         """
         f = self(x, y)

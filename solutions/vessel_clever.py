@@ -42,14 +42,12 @@ def compute_distance(x1: float, y1: float, x2: float, y2: float) -> float:
     return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
 
 
-def competition(
-    ls_vessels: list[Vessel], x: float = -2, y: float = -2, dt: float = 0.05
-):
+def competition(ls_vessels: list, x: float = -2, y: float = -2, dt: float = 0.05):
     """This function simulates a competition between vessels to reach a given point.
 
     Parameters
     ----------
-    ls_vessels : list[Vessel]
+    ls_vessels : list
         A list of vessels that will compete in the same vector field
     x : float, optional
         Goal position in the x-direction, by default -2

@@ -2,7 +2,7 @@
 # a list of points is a Pythagorean triplet
 
 
-def is_pythagorean(ls: list[int]) -> bool:
+def is_pythagorean(ls: list) -> bool:
     # Check the list has three numbers
     pass
     # Check the numbers are all positive integers

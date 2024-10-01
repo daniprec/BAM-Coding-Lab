@@ -105,7 +105,7 @@ def test_move(vessel: Vessel, dt: float = 0.05):
             break
 
 
-def test_move_multiple(ls_vessels: list[Vessel], dt: float = 0.05):
+def test_move_multiple(ls_vessels: list, dt: float = 0.05):
     ls_vessels[0].vectorfield.plot([-5, 5, -5, 5])
     # Start an animation to show the movement of the vessel
     # User controls when it stops

@@ -2,7 +2,7 @@ from solutions.vectorfield import VectorField
 from solutions.vessel import Vessel
 
 
-def vectorfield_zero(x: float, y: float) -> tuple[float, float]:
+def vectorfield_zero(x: float, y: float) -> tuple:
     """
     Simple vector field function that returns 0.
     """
@@ -21,7 +21,7 @@ def test_vectorfield_zero():
     assert vessel.y == 0
 
 
-def vectorfield_ones(x: float, y: float) -> tuple[float, float]:
+def vectorfield_ones(x: float, y: float) -> tuple:
     """
     Simple vector field function that returns 1.
     """

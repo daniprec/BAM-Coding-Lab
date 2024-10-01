@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def bezier(ls_pts: list[tuple], t: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+def bezier(ls_pts: list, t: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """
     Generate a cubic Bézier curve with four control points
     This function ONLY works for four control points.

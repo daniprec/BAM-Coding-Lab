@@ -38,7 +38,7 @@ print(power_or_factorial(2, 3))  # 8
 # ----------------------------------------------
 
 
-def count_even_and_odd(ls: list[int]) -> tuple:
+def count_even_and_odd(ls: list) -> tuple:
     n_even = 0
     n_odd = 0
     for num in ls:
