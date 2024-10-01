@@ -10,15 +10,14 @@ def build_sample_data(save_path):
 
 
 @pytest.fixture
-def sample_data(tmp_path):
-    save_path = tmp_path / "sample.csv"
+def data_path():
+    save_path = Path("test/sample_data.csv")
     build_sample_data(save_path)  # Setup phase
     yield save_path  # Provide the resource to the test function
     Path.unlink(save_path)  # Teardown phase
 
 
-def test_add_column(sample_data):
-    df = pd.read_csv(sample_data)
-    df["z"] = df["x"] + df["y"]
+def test_add_column(data_path:Path):
+    df = pd.read_csv(data_path)
     expected_result = pd.Series([5, 7, 9])
-    pd.testing.assert_series_equal(df["z"], expected_result)
+    pd.testing.assert_series_equal(df.sum(axis=1), expected_result)
