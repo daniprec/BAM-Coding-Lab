@@ -17,7 +17,7 @@ def data_path():
     Path.unlink(save_path)  # Teardown phase
 
 
-def test_add_column(data_path:Path):
+def test_add_column(data_path: Path):
     df = pd.read_csv(data_path)
     expected_result = pd.Series([5, 7, 9])
     pd.testing.assert_series_equal(df.sum(axis=1), expected_result)

@@ -17,10 +17,10 @@ setuptools.setup(
     ],
     python_requires=">=3.11",
     install_requires=[
-        "black",  # Autoformatter
         "matplotlib",
         "numpy",
         "pandas",
         "pytest",
+        "ruff",  # Autoformatter
     ],
 )
